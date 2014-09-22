@@ -16,8 +16,13 @@ class shadder{
 
         void setShadderType(int index, GLenum type);
 
-        void addSource(int index, char **src);
+        void addSource(int index, const char **src);
 
+        void compileAll(int num);
+
+        void bindFragData(GLuint colorNumber, const char *data);
+
+        void link();
 };
 
 #endif
