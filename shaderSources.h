@@ -4,10 +4,11 @@
 const char* srcvertex[] = {
     "#version 440 \n \
         layout(location=1)in vec3 position; \
+        layout(location=2)uniform mat4 worldViewCam; \
         out vec3 pcolor; \
         void main(){ \
-            gl_Position = vec4(position, 1.0);  \
-            pcolor = vec3(abs(position.x), abs(position.y), abs(position.z)); \
+            gl_Position = worldViewCam * vec4(position, 1.0);  \
+            pcolor = position; \
         }"
 };
 

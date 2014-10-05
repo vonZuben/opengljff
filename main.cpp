@@ -8,8 +8,23 @@
 
 #include<iostream>
 
+#define PI 3.14159
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+
 
 using namespace particleSim;
+
+void setView(float fovf){
+    glm::mat4 worldView;
+    worldView = glm::perspective((float)PI*fovf, (float)1000/800, 0.01f, 100.0f);
+    glm::vec3 pos = glm::vec3(-0.5,-0.5,-0.5);
+    worldView *= glm::lookAt(pos, pos + glm::vec3(1.0, 1.0, 1.0), glm::vec3(0.0, 1.0, 0.0));
+
+    //GLuint worldViewLoc = glGetAttribLocation(//prgm, //name);
+    glUniformMatrix4fv(2, 1, GL_FALSE, &worldView[0][0]);
+}
 
 //void mousePress(GLFWwindow *win, int button, int action, int mods){
 //    (void) win;
@@ -70,18 +85,26 @@ int main (int argc, char** argv){
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
 
-    glViewport(-1000,-800,2000,1600);
+    glViewport(0,0,1000,800);
 
     //glfwSetMouseButtonCallback(mainWindow->mainWindow, mousePress);
     glEnable(GL_POINT_SMOOTH);
     glPointSize(1.0f);
+
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    float fovf = 0.5f;
+    setView(fovf);
 
     while(!mainWindow->checkEvents()){
 //
 //        if (mainWindow->keyPressed(GLFW_KEY_A))
 //            std::cout << "pressed" << '\n';
 
-        glClearColor(0.0, 0.0, 0.0, 0.0);
+        fovf -= 0.001f;
+        if (fovf <= 0.0f)
+            fovf = 1.0;
+        setView(fovf);
 
         glClear(GL_COLOR_BUFFER_BIT);
 
