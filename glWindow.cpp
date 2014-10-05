@@ -11,20 +11,20 @@ using namespace particleSim;
 bool glWindow::isInitialized = false;
 
 void glWindow::createWindow(int width, int height, const char* name, bool fullScreen){
-    mainWindow = glfwCreateWindow(width, height, name,
+    glWindow::mainWindow = glfwCreateWindow(width, height, name,
             fullScreen ? glfwGetPrimaryMonitor() : NULL, NULL);
-    glfwMakeContextCurrent(mainWindow);
+    glfwMakeContextCurrent(glWindow::mainWindow);
 
     glewInit();
 }
 
 bool glWindow::checkEvents(){
     glfwPollEvents();
-    return glfwWindowShouldClose(mainWindow);
+    return glfwWindowShouldClose(glWindow::mainWindow);
 }
 
 void glWindow::updateWindow(){
-    glfwSwapBuffers(mainWindow);
+    glfwSwapBuffers(glWindow::mainWindow);
 }
 
 bool glWindow::keyPressed(int key){
@@ -73,14 +73,14 @@ glWindow::glWindow(){
 glWindow::glWindow(int width, int height, const char* name, bool fullScreen){
     if (!glWindow::isInitialized)
         glfwInit();
-    mainWindow = glfwCreateWindow(width, height, name,
+    glWindow::mainWindow = glfwCreateWindow(width, height, name,
             fullScreen ? glfwGetPrimaryMonitor() : NULL, NULL);
-    glfwMakeContextCurrent(mainWindow);
+    glfwMakeContextCurrent(glWindow::mainWindow);
 
     glewInit();
 }
 
 glWindow::~glWindow(){
-    glfwDestroyWindow(mainWindow);
+    glfwDestroyWindow(glWindow::mainWindow);
     glfwTerminate();
 }

@@ -8,9 +8,12 @@ class shadder{
 
     private:
         GLuint *shader;
+        int numShadders;
         GLuint prgm;
 
     public:
+
+        ~shadder();
 
         void createShaders(int num);
 
@@ -23,6 +26,10 @@ class shadder{
         void bindFragData(GLuint colorNumber, const char *data);
 
         void link();
+
+        void usePrgm();
+
+        GLuint getPrgm() const;
 };
 
 #endif

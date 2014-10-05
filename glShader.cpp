@@ -2,8 +2,17 @@
 #include<iostream>
 #include "glShader.h"
 
+shadder::~shadder(){
+    glDeleteProgram(shadder::prgm);
+    for (int i = 0; i < shadder::numShadders; i++)
+        glDeleteShader(shadder::shader[i]);
+
+    delete[] shadder::shader;
+}
+
 void shadder::createShaders(int num){
     shadder::shader = new GLuint[num];
+    shadder::numShadders = num;
 }
 
 void shadder::setShadderType(int index, GLenum type){
@@ -15,7 +24,7 @@ void shadder::addSource(int index, const char **src){
 }
 
 void shadder::compileAll(int num){
-    GLuint sprgm = glCreateProgram();
+    shadder::prgm = glCreateProgram();
 
     for (int i = 0; i < num; i++){
         glCompileShader(shadder::shader[i]);
@@ -25,7 +34,7 @@ void shadder::compileAll(int num){
         glGetShaderInfoLog(shadder::shader[i], 4096, NULL, log);
         std::cout << log << '\n';
 
-        glAttachShader(sprgm, shadder::shader[i]);
+        glAttachShader(shadder::prgm, shadder::shader[i]);
     }
 
 }
@@ -41,4 +50,12 @@ void shadder::link(){
     glGetProgramiv(shadder::prgm, GL_LINK_STATUS, &rv);
     glGetProgramInfoLog(shadder::prgm, 4096, NULL, log);
     std::cout << log << '\n';
+}
+
+void shadder::usePrgm(){
+    glUseProgram(shadder::prgm);
+}
+
+GLuint shadder::getPrgm() const{
+    return shadder::prgm;
 }

@@ -12,11 +12,12 @@ namespace particleSim{
     class glWindow{
 
         private:
-            GLFWwindow* mainWindow;
             static bool isInitialized;
             int inArray(int *array, int length, int val);
 
         public:
+            GLFWwindow* mainWindow;
+
             static int hello;
 
             void createWindow(int width, int height, const char* name, bool fullScreen);
