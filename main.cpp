@@ -6,6 +6,8 @@
 
 #include"shaderSources.h"
 
+#include"matricies.h"
+
 #include<iostream>
 
 #define PI 3.14159
@@ -109,6 +111,10 @@ int main (int argc, char** argv){
     glEnableVertexAttribArray(1);
 
     //glfwSetMouseButtonCallback(mainWindow->mainWindow, mousePress);
+
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+
     glEnable(GL_POINT_SMOOTH);
     glPointSize(1.0f);
 
@@ -130,10 +136,10 @@ int main (int argc, char** argv){
             setView(0.5, camerpos);
         }
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //glDrawArrays(GL_POINTS, 0, 4000);
-        glDrawArraysIndirect(GL_LINES, 0);
+        glDrawArraysIndirect(GL_POINTS, 0);
         //glDrawArrays(GL_POINTS, 0, sizeof(dat)/(3*sizeof(float)));
 
         mainWindow->updateWindow();
