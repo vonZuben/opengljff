@@ -20,10 +20,10 @@ using namespace particleSim;
 
 int height, width;
 
-void setView(float fovf, float posa){
+void setView(float fovf){
     glm::mat4 worldView;
     worldView = glm::perspective((float)PI*fovf, (float)width/height, 0.01f, 100.0f);
-    glm::vec3 pos = glm::vec3(posa, posa, posa);
+    glm::vec3 pos = glm::vec3(-0.5, -0.5, -0.5);
     worldView *= glm::lookAt(pos, pos + glm::vec3(1.0, 1.0, 1.0), glm::vec3(0.0, 1.0, 0.0));
 
     //GLuint worldViewLoc = glGetAttribLocation(//prgm, //name);
@@ -35,6 +35,7 @@ void sizeChange(GLFWwindow *win, int x, int y){
     width = x;
     height = y;
     glViewport(0,0,x,y);
+    setView(0.5);
 }
 
 //void mousePress(GLFWwindow *win, int button, int action, int mods){
@@ -120,20 +121,28 @@ int main (int argc, char** argv){
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
-    float camerpos = 1.0f;
-    setView(0.5, camerpos);
+    //float camerpos = 1.0f;
+    setView(0.5);
 
     glfwSetWindowSizeCallback(mainWindow->mainWindow, sizeChange);
 
-    while(!mainWindow->checkEvents()){
-//
-//        if (mainWindow->keyPressed(GLFW_KEY_A))
-//            std::cout << "pressed" << '\n';
+    double mx, my;
+    double omx, omy;
 
-        if (camerpos >= -1.5f){
-            //camerpos = 1.0;
-            camerpos -= 0.003f;
-            setView(0.5, camerpos);
+    while(!mainWindow->checkEvents()){
+//        if (camerpos >= -1.5f){
+//            //camerpos = 1.0;
+//            camerpos -= 0.003f;
+//            setView(0.5, camerpos);
+//        }
+
+        if (glfwGetMouseButton(mainWindow->mainWindow, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+        {
+            glfwGetCursorPos(mainWindow->mainWindow, &mx, &my);
+        }
+        else
+        {
+            glfwGetCursorPos(mainWindow->mainWindow, &omx, &omy);
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
