@@ -10,6 +10,8 @@
 
 #include<iostream>
 
+#include<string.h>
+
 #define PI 3.14159
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -128,6 +130,18 @@ int main (int argc, char** argv){
 
     double mx, my;
     double omx, omy;
+    glm::vec2 mVec;
+
+    glm::mat4 rotTMP;
+
+    memset(&rotTMP[0][0], 0, 16 * sizeof(float));
+
+    rotTMP[0][0] = 1;
+    rotTMP[1][1] = 1;
+    rotTMP[2][2] = 1;
+    rotTMP[3][3] = 1;
+
+    glUniformMatrix4fv(3, 1, GL_FALSE, &rotTMP[0][0]);
 
     while(!mainWindow->checkEvents()){
 //        if (camerpos >= -1.5f){
@@ -139,6 +153,7 @@ int main (int argc, char** argv){
         if (glfwGetMouseButton(mainWindow->mainWindow, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
         {
             glfwGetCursorPos(mainWindow->mainWindow, &mx, &my);
+            mVec = glm::vec2(mx - omx, my - omy);
         }
         else
         {
