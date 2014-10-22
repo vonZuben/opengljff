@@ -1,15 +1,12 @@
 #ifndef MATRICIES_H
 #define MATRICIES_H
 
-#include<glm/glm.hpp>
-
-using namespace glm;
         // column major matricies for use with opengl and glm
 class matm{
 
     private:
 
-        mat4 mat;
+        float* mat;
 
     public:
 
@@ -22,6 +19,8 @@ class matm{
         void xRotation(float angle);
 
         void yRotation(float angle);
+
+        float* val();
 
 };
 
