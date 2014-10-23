@@ -1,7 +1,8 @@
 #ifndef MATRICIES_H
 #define MATRICIES_H
 
-        // column major matricies for use with opengl and glm
+        // row major matricies for use with opengl and glm. transormations are done
+        // for opengl which is column major therefor everything is inversed
 class matm{
 
     private:
@@ -21,6 +22,10 @@ class matm{
         void yRotation(float angle);
 
         float* val();
+
+        const matm& operator=(const matm& rhs);
+        matm operator*(const matm& rhs) const;
+        const matm& operator*=(const matm& rhs);
 
 };
 
