@@ -7,7 +7,7 @@ class matm{
 
     private:
 
-        float* mat;
+        float mat[4][4];
 
     public:
 

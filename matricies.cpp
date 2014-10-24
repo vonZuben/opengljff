@@ -6,20 +6,20 @@
 using namespace std;
 
 matm::matm(){
-    mat = new float[16];
+    //mat = new float[16];
     identity();
 }
 
 matm::~matm(){
-    delete[] mat;
+    //delete[] mat;
 }
 
 void matm::identity(){
     memset(mat, 0, 16*sizeof(float));
-    mat[0] = 1;
-    mat[5] = 1;
-    mat[10] = 1;
-    mat[15] = 1;
+    mat[0][0] = 1;
+    mat[1][1] = 1;
+    mat[2][2] = 1;
+    mat[3][3] = 1;
 }
 
 void matm::xRotation(float angle){
@@ -39,7 +39,7 @@ void matm::yRotation(float angle){
 }
 
 float* matm::val(){
-    return mat;
+    return &mat[0][0];
 }
 
 const matm& matm::operator=(const matm& rhs){
@@ -53,17 +53,17 @@ matm matm::operator*(const matm& rhs) const{
 
     matm t;
 
-    t.mat[0] = (this->mat[0] * rhs.mat[0]) + (this->mat[1] * rhs.mat[0])
-        + (this->mat[2] * rhs.mat[0]) + (this->mat[3] * rhs.mat[0]);
+    t.mat[0][0] = (this->mat[0][0] * rhs.mat[0][0]) + (this->mat[0][1] * rhs.mat[1][0])
+        + (this->mat[0][2] * rhs.mat[2][0]) + (this->mat[0][3] * rhs.mat[3][0]);
 
-    t.mat[1] = (this->mat[0] * rhs.mat[1]) + (this->mat[1] * rhs.mat[1])
-        + (this->mat[2] * rhs.mat[1]) + (this->mat[3] * rhs.mat[1]);
+    t.mat[0][1] = (this->mat[0][0] * rhs.mat[0][1]) + (this->mat[0][1] * rhs.mat[1][1])
+        + (this->mat[0][2] * rhs.mat[2][1]) + (this->mat[0][3] * rhs.mat[3][1]);
 
-    t.mat[2] = (this->mat[0] * rhs.mat[2]) + (this->mat[1] * rhs.mat[2])
-        + (this->mat[2] * rhs.mat[2]) + (this->mat[3] * rhs.mat[2]);
+    t.mat[0][2] = (this->mat[0][0] * rhs.mat[0][2]) + (this->mat[0][1] * rhs.mat[1][2])
+        + (this->mat[0][2] * rhs.mat[2][2]) + (this->mat[0][3] * rhs.mat[3][2]);
 
-    t.mat[3] = (this->mat[0] * rhs.mat[3]) + (this->mat[1] * rhs.mat[3])
-        + (this->mat[2] * rhs.mat[3]) + (this->mat[3] * rhs.mat[3]);
+    t.mat[0][3] = (this->mat[0][0] * rhs.mat[0][3]) + (this->mat[0][1] * rhs.mat[1][3])
+        + (this->mat[0][2] * rhs.mat[2][3]) + (this->mat[0][3] * rhs.mat[3][3]);
 
     return t;
 }
