@@ -144,9 +144,8 @@ int main (int argc, char** argv){
     //glUniformMatrix4fv(3, 1, GL_FALSE, &rotTMP[0][0]);
 
     matm transform;
-    matm tmp;
 
-    transform *= tmp;
+    //transform.xRotation(PI/2);
 
     //transform.xRotation(1.3);
 
@@ -165,8 +164,10 @@ int main (int argc, char** argv){
             dx = mx - omx;
             dy = my - omy;
 
-            (void) dx;
-            (void) dy;
+            //transform.identity();
+            //transform.xRotation(dx/1000);
+            transform.yRotation(dy/1000);
+            glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
         }
         else
         {
