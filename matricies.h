@@ -13,6 +13,8 @@ class matm{
 
         matm();
 
+        matm(bool loadIdentity);
+
         ~matm();
 
         void identity();
@@ -20,6 +22,10 @@ class matm{
         void xRotation(float angle);
 
         void yRotation(float angle);
+
+        void zRotation(float angle);
+
+        void translate(float x, float y, float z);
 
         float* val();
 

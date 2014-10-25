@@ -25,8 +25,8 @@ int height, width;
 void setView(float fovf){
     glm::mat4 worldView;
     worldView = glm::perspective((float)PI*fovf, (float)width/height, 0.01f, 100.0f);
-    glm::vec3 pos = glm::vec3(-0.5, -0.5, -0.5);
-    worldView *= glm::lookAt(pos, pos + glm::vec3(1.0, 1.0, 1.0), glm::vec3(0.0, 1.0, 0.0));
+    glm::vec3 pos = glm::vec3(2.0, 0.0, 0.0);
+    worldView *= glm::lookAt(pos, pos + glm::vec3(-1.0,0, 0), glm::vec3(0.0, 0.0, 1.0));
 
     //GLuint worldViewLoc = glGetAttribLocation(//prgm, //name);
     glUniformMatrix4fv(2, 1, GL_FALSE, &worldView[0][0]);
@@ -148,6 +148,8 @@ int main (int argc, char** argv){
     //transform.xRotation(PI/2);
 
     //transform.xRotation(1.3);
+    //transform.zRotation(PI/2);
+    transform.translate(-0.5, -0.5, -0.5);
 
     glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
 
@@ -164,9 +166,14 @@ int main (int argc, char** argv){
             dx = mx - omx;
             dy = my - omy;
 
+            omx = mx;
+            omy = my;
+
             //transform.identity();
-            //transform.xRotation(dx/1000);
-            transform.yRotation(dy/1000);
+            //transform.translate(-0.5, -0.5, -0.5);
+            //transform.yRotation(dy/100);
+            (void)dy;
+            transform.yRotation(dx/100);
             glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
         }
         else
