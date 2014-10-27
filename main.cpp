@@ -10,7 +10,7 @@
 
 #include<iostream>
 
-#include<string.h>
+//#include<string.h>
 
 #define PI 3.14159
 #define GLM_FORCE_RADIANS
@@ -24,12 +24,20 @@ int height, width;
 
 void setView(float fovf){
     glm::mat4 worldView;
-    worldView = glm::perspective((float)PI*fovf, (float)width/height, 0.01f, 100.0f);
+    //worldView = glm::perspective((float)PI*fovf, (float)width/height, 0.01f, 100.0f);
+
+    matm perspective;
+    matm temp;
+
+    perspective.perspective((float)PI/2, (float)width/height, 0.01f, 100.0f);
+
     glm::vec3 pos = glm::vec3(2.0, 0.0, 0.0);
-    worldView *= glm::lookAt(pos, pos + glm::vec3(-1.0,0, 0), glm::vec3(0.0, 0.0, 1.0));
+    worldView = glm::lookAt(pos, pos + glm::vec3(-1.0,0, 0), glm::vec3(0.0, 0.0, 1.0));
 
     //GLuint worldViewLoc = glGetAttribLocation(//prgm, //name);
-    glUniformMatrix4fv(2, 1, GL_FALSE, &worldView[0][0]);
+    glUniformMatrix4fv(2, 1, GL_FALSE, perspective.val());
+    //glUniformMatrix4fv(4, 1, GL_FALSE, temp.val());
+    glUniformMatrix4fv(4, 1, GL_FALSE, &worldView[0][0]);
 }
 
 void sizeChange(GLFWwindow *win, int x, int y){
@@ -154,13 +162,11 @@ int main (int argc, char** argv){
     glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
 
     while(!mainWindow->checkEvents()){
-//        if (camerpos >= -1.5f){
-//            //camerpos = 1.0;
-//            camerpos -= 0.003f;
-//            setView(0.5, camerpos);
-//        }
 
-        if (glfwGetMouseButton(mainWindow->mainWindow, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+        if (glfwGetKey(mainWindow->mainWindow, GLFW_KEY_ESCAPE))
+                break;
+
+        if (glfwGetMouseButton(mainWindow->mainWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
         {
             glfwGetCursorPos(mainWindow->mainWindow, &mx, &my);
             dx = mx - omx;
@@ -169,11 +175,8 @@ int main (int argc, char** argv){
             omx = mx;
             omy = my;
 
-            //transform.identity();
-            //transform.translate(-0.5, -0.5, -0.5);
-            //transform.yRotation(dy/100);
-            (void)dy;
-            transform.yRotation(dx/100);
+            transform.yRotation(dy/100);
+            transform.zRotation(dx/100);
             glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
         }
         else

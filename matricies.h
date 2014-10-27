@@ -19,6 +19,8 @@ class matm{
 
         void identity();
 
+        void perspective(float fov, float aspectRatio, float near, float far);
+
         void xRotation(float angle);
 
         void yRotation(float angle);

@@ -26,6 +26,21 @@ void matm::identity(){
     mat[3][3] = 1;
 }
 
+void matm::perspective(float fov, float aspectRatio, float near, float far){
+
+    float rotation[4][4] = {
+        1/(aspectRatio*(float)tan(fov/2)), 0, 0, 0,
+        0, 1/(float)tan(fov/2), 0, 0,
+        0, 0, -((far + near)/(far - near)), -1,
+        0, 0, -((2*far*near)/(far - near)), 0
+    };
+
+    matm t;
+    memcpy(t.val(), rotation, 16*sizeof(float));
+
+    *this *= t;
+}
+
 void matm::xRotation(float angle){
 
     float rotation[4][4] = {
@@ -103,69 +118,12 @@ matm matm::operator*(const matm& rhs) const{
 
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
-            // Multiply the row of A by the column of B to get the row, column of product.
             for (int inner = 0; inner < 4; inner++) {
                 t.mat[row][col] += this->mat[row][inner] * rhs.mat[inner][col];
             }
         }
     }
 
-//    // row 1
-//
-//    t.mat[0][0] = (this->mat[0][0] * rhs.mat[0][0]) + (this->mat[0][1] * rhs.mat[1][0])
-//        + (this->mat[0][2] * rhs.mat[2][0]) + (this->mat[0][3] * rhs.mat[3][0]);
-//
-//    t.mat[0][1] = (this->mat[0][0] * rhs.mat[0][1]) + (this->mat[0][1] * rhs.mat[1][1])
-//        + (this->mat[0][2] * rhs.mat[2][1]) + (this->mat[0][3] * rhs.mat[3][1]);
-//
-//    t.mat[0][2] = (this->mat[0][0] * rhs.mat[0][2]) + (this->mat[0][1] * rhs.mat[1][2])
-//        + (this->mat[0][2] * rhs.mat[2][2]) + (this->mat[0][3] * rhs.mat[3][2]);
-//
-//    t.mat[0][3] = (this->mat[0][0] * rhs.mat[0][3]) + (this->mat[0][1] * rhs.mat[1][3])
-//        + (this->mat[0][2] * rhs.mat[2][3]) + (this->mat[0][3] * rhs.mat[3][3]);
-//
-//    // row 2
-//
-//    t.mat[1][0] = (this->mat[1][0] * rhs.mat[0][0]) + (this->mat[1][1] * rhs.mat[1][0])
-//        + (this->mat[1][2] * rhs.mat[2][0]) + (this->mat[1][3] * rhs.mat[3][0]);
-//
-//    t.mat[1][1] = (this->mat[1][0] * rhs.mat[0][1]) + (this->mat[1][1] * rhs.mat[1][1])
-//        + (this->mat[1][2] * rhs.mat[2][1]) + (this->mat[1][3] * rhs.mat[3][1]);
-//
-//    t.mat[1][2] = (this->mat[1][0] * rhs.mat[0][2]) + (this->mat[1][1] * rhs.mat[1][2])
-//        + (this->mat[1][2] * rhs.mat[2][2]) + (this->mat[1][3] * rhs.mat[3][2]);
-//
-//    t.mat[1][3] = (this->mat[1][0] * rhs.mat[0][3]) + (this->mat[1][1] * rhs.mat[1][3])
-//        + (this->mat[1][2] * rhs.mat[2][3]) + (this->mat[1][3] * rhs.mat[3][3]);
-//
-//    // row 3
-//
-//    t.mat[2][0] = (this->mat[2][0] * rhs.mat[0][0]) + (this->mat[2][1] * rhs.mat[2][0])
-//        + (this->mat[2][2] * rhs.mat[2][0]) + (this->mat[2][3] * rhs.mat[3][0]);
-//
-//    t.mat[2][1] = (this->mat[2][0] * rhs.mat[0][1]) + (this->mat[2][1] * rhs.mat[1][1])
-//        + (this->mat[2][2] * rhs.mat[2][1]) + (this->mat[2][3] * rhs.mat[3][1]);
-//
-//    t.mat[2][2] = (this->mat[2][0] * rhs.mat[0][2]) + (this->mat[2][1] * rhs.mat[1][2])
-//        + (this->mat[2][2] * rhs.mat[2][2]) + (this->mat[2][3] * rhs.mat[3][2]);
-//
-//    t.mat[2][3] = (this->mat[2][0] * rhs.mat[0][3]) + (this->mat[2][1] * rhs.mat[1][3])
-//        + (this->mat[2][2] * rhs.mat[2][3]) + (this->mat[2][3] * rhs.mat[3][3]);
-//
-//    // row 3
-//
-//    t.mat[3][0] = (this->mat[3][0] * rhs.mat[0][0]) + (this->mat[3][1] * rhs.mat[2][0])
-//        + (this->mat[3][2] * rhs.mat[2][0]) + (this->mat[3][3] * rhs.mat[3][0]);
-//
-//    t.mat[3][1] = (this->mat[3][0] * rhs.mat[0][1]) + (this->mat[3][1] * rhs.mat[1][1])
-//        + (this->mat[3][2] * rhs.mat[2][1]) + (this->mat[3][3] * rhs.mat[3][1]);
-//
-//    t.mat[3][2] = (this->mat[3][0] * rhs.mat[0][2]) + (this->mat[3][1] * rhs.mat[1][2])
-//        + (this->mat[3][2] * rhs.mat[2][2]) + (this->mat[3][3] * rhs.mat[3][2]);
-//
-//    t.mat[3][3] = (this->mat[3][0] * rhs.mat[0][3]) + (this->mat[3][1] * rhs.mat[1][3])
-//        + (this->mat[3][2] * rhs.mat[2][3]) + (this->mat[3][3] * rhs.mat[3][3]);
-//
     return t;
 }
 
