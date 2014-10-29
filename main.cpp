@@ -26,7 +26,7 @@ void setView(float fovf){
     glm::mat4 worldView;
     //worldView = glm::perspective((float)PI*fovf, (float)width/height, 0.01f, 100.0f);
 
-    matm perspective;
+    matm perspective(true);
     matm temp;
 
     perspective.perspective((float)PI/2, (float)width/height, 0.01f, 100.0f);
