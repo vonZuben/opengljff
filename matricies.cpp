@@ -2,28 +2,34 @@
 
 #include<math.h>
 #include<string.h>
+#include<iostream>
 
 using namespace std;
 
 matm::matm(){
-    memset(mat, 0, 16*sizeof(float));
-    identity();
+    this->mat = new float[16];
 }
 
 matm::matm(bool loadIdentity){
-    memset(mat, 0, 16*sizeof(float));
+    this->mat = new float[16];
     if (loadIdentity) identity();
+    else zero();
 }
 
 matm::~matm(){
-    //delete[] mat;
+    delete[] mat;
 }
 
 void matm::identity(){
-    mat[0][0] = 1;
-    mat[1][1] = 1;
-    mat[2][2] = 1;
-    mat[3][3] = 1;
+    zero();
+    mat[0] = 1;
+    mat[5] = 1;
+    mat[10] = 1;
+    mat[15] = 1;
+}
+
+void matm::zero(){
+    memset(mat, 0, 16*sizeof(float));
 }
 
 void matm::perspective(float fov, float aspectRatio, float near, float far){
@@ -102,7 +108,7 @@ void matm::translate(float x, float y, float z){
 }
 
 float* matm::val(){
-    return &mat[0][0];
+    return mat;
 }
 
 const matm& matm::operator=(const matm& rhs){
@@ -119,7 +125,8 @@ matm matm::operator*(const matm& rhs) const{
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             for (int inner = 0; inner < 4; inner++) {
-                t.mat[row][col] += this->mat[row][inner] * rhs.mat[inner][col];
+                std::cout << 4 * row + col << " : " << 4*row+inner << " : " << 4*inner+col << "\n";
+                t.mat[4 * row + col] += this->mat[4 * row + inner] * rhs.mat[4 * inner + col];
             }
         }
     }

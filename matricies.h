@@ -7,7 +7,7 @@ class matm{
 
     private:
 
-        float mat[4][4];
+        float* mat;
 
     public:
 
@@ -18,6 +18,8 @@ class matm{
         ~matm();
 
         void identity();
+
+        void zero();
 
         void perspective(float fov, float aspectRatio, float near, float far);
 

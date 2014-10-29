@@ -151,7 +151,7 @@ int main (int argc, char** argv){
 
     //glUniformMatrix4fv(3, 1, GL_FALSE, &rotTMP[0][0]);
 
-    matm transform;
+    matm transform(true);
 
     //transform.xRotation(PI/2);
 
