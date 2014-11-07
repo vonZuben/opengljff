@@ -1,5 +1,11 @@
-all:
-	g++ -o program -lglfw -lGLEW -lGL glWindow.cpp main.cpp glShader.cpp matricies.cpp -g -Wall -O0
+FIELS=*.cpp
 
+LPATH=-L/home/chris/gl/particles
+LIBS=-lGL -lGLEW -lglfw3 -lX11 -lXxf86vm -lXrandr -lXi -lpthread -lXcursor -lXinerama
+
+CFLAGS=-Wall -O0 -g
+
+default:
+	g++ -o program $(FIELS) $(CFLAGS) $(LPATH) $(LIBS)
 run:
 	./program
