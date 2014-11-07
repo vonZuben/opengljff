@@ -1,11 +1,14 @@
+GPP=
 FIELS=*.cpp
 
-LPATH=-L/home/chris/gl/particles
+LPATH=-L$(PWD)
 LIBS=-lGL -lGLEW -lglfw3 -lX11 -lXxf86vm -lXrandr -lXi -lpthread -lXcursor -lXinerama
 
 CFLAGS=-Wall -O0 -g
 
+PRGM=program
+
 default:
-	g++ -o program $(FIELS) $(CFLAGS) $(LPATH) $(LIBS)
+	g++ -o $(PRGM) $(FIELS) $(CFLAGS) $(LPATH) $(LIBS)
 run:
-	./program
+	./$(PRGM)
