@@ -1,21 +1,41 @@
 #ifndef MATRICIES_H
 #define MATRICIES_H
 
+#include<algorithm>
+
         // row major matricies for use with opengl and glm. transormations are done
         // for opengl which is column major therefor everything is inversed
+
 class matm{
 
     private:
 
-        float* mat;
+        int size;
+        float* mat4;
 
     public:
 
-        matm();
+        matm(int _size = 16) :
+            size(_size),
+            mat4(size ? new float[size] : 0)
+            {}
 
-        matm(bool loadIdentity);
+        matm(const matm& other) :
+            size(other.size),
+            mat4(size ? new float[size] : 0)
+            {
+                std::copy(other.mat4, other.mat4 + size, mat4);
+            }
 
-        ~matm();
+        ~matm(){
+            delete[] mat4;
+        }
+
+        matm& operator=(matm rhs);
+        matm operator*(const matm& rhs) const;
+        const matm& operator*=(const matm& rhs);
+
+        void swap(matm& r, matm& l);
 
         void identity();
 
@@ -32,11 +52,6 @@ class matm{
         void translate(float x, float y, float z);
 
         float* val();
-
-        const matm& operator=(const matm& rhs);
-        matm operator*(const matm& rhs) const;
-        const matm& operator*=(const matm& rhs);
-
 };
 
 #endif

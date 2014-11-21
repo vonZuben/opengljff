@@ -26,7 +26,8 @@ void setView(float fovf){
     glm::mat4 worldView;
     //worldView = glm::perspective((float)PI*fovf, (float)width/height, 0.01f, 100.0f);
 
-    matm perspective(true);
+    matm perspective;
+    perspective.identity();
     matm temp;
 
     perspective.perspective((float)PI/2, (float)width/height, 0.01f, 100.0f);
@@ -151,7 +152,8 @@ int main (int argc, char** argv){
 
     //glUniformMatrix4fv(3, 1, GL_FALSE, &rotTMP[0][0]);
 
-    matm transform(true);
+    matm transform;
+    transform.identity();
 
     //transform.xRotation(PI/2);
 
@@ -177,7 +179,8 @@ int main (int argc, char** argv){
 
             transform.yRotation(dy/100);
             transform.zRotation(dx/100);
-            glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
+            matm tmp(transform);
+            glUniformMatrix4fv(3, 1, GL_FALSE, tmp.val());
         }
         else
         {
