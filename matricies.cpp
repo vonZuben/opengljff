@@ -1,8 +1,6 @@
 #include"matricies.h"
 
 #include<cmath>
-#include<cstring>
-#include<iostream>
 #include<utility>
 #include<algorithm>
 
@@ -39,6 +37,7 @@ matm& matm::operator=(matm rhs){
 matm matm::operator*(const matm& rhs) const{
 
     matm t;
+    t.zero();
 
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
@@ -62,7 +61,7 @@ const matm& matm::operator*=(const matm& rhs){
 
 void matm::perspective(float fov, float aspectRatio, float near, float far){
 
-    float rotation[4][4] = {
+    float rotation[16] = {
         1/(aspectRatio*(float)tan(fov/2)), 0, 0, 0,
         0, 1/(float)tan(fov/2), 0, 0,
         0, 0, -((far + near)/(far - near)), -1,
@@ -70,14 +69,14 @@ void matm::perspective(float fov, float aspectRatio, float near, float far){
     };
 
     matm t;
-    memcpy(t.val(), rotation, 16*sizeof(float));
+    std::copy(rotation, rotation + 16, t.val());
 
     *this *= t;
 }
 
 void matm::xRotation(float angle){
 
-    float rotation[4][4] = {
+    float rotation[16] = {
         1, 0, 0, 0,
         0, (float)cos((double)angle), (float)sin((double)angle), 0,
         0, -(float)sin((double)angle), (float)cos((double)angle), 0,
@@ -85,14 +84,14 @@ void matm::xRotation(float angle){
     };
 
     matm t;
-    memcpy(t.val(), rotation, 16*sizeof(float));
+    std::copy(rotation, rotation + 16, t.val());
 
     *this *= t;
 }
 
 void matm::yRotation(float angle){
 
-    float rotation[4][4] = {
+    float rotation[16] = {
         (float)cos((double)angle), 0, -(float)sin((double)angle), 0,
         0, 1, 0, 0,
         (float)sin((double)angle), 0, (float)cos((double)angle), 0,
@@ -100,14 +99,14 @@ void matm::yRotation(float angle){
     };
 
     matm t;
-    memcpy(t.val(), rotation, 16*sizeof(float));
+    std::copy(rotation, rotation + 16, t.val());
 
     *this *= t;
 }
 
 void matm::zRotation(float angle){
 
-    float rotation[4][4] = {
+    float rotation[16] = {
         (float)cos((double)angle), (float)sin((double)angle), 0, 0,
         -(float)sin((double)angle), (float)cos((double)angle), 0, 0,
         0, 0, 1, 0,
@@ -115,14 +114,14 @@ void matm::zRotation(float angle){
     };
 
     matm t;
-    memcpy(t.val(), rotation, 16*sizeof(float));
+    std::copy(rotation, rotation + 16, t.val());
 
     *this *= t;
 }
 
 void matm::translate(float x, float y, float z){
 
-    float rotation[4][4] = {
+    float rotation[16] = {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
@@ -130,7 +129,7 @@ void matm::translate(float x, float y, float z){
     };
 
     matm t;
-    memcpy(t.val(), rotation, 16*sizeof(float));
+    std::copy(rotation, rotation + 16, t.val());
 
     *this *= t;
 }

@@ -10,7 +10,7 @@ class matm{
 
     private:
 
-        int size;
+        int size; // i figure this makes it more general just in case
         float* mat4;
 
     public:
