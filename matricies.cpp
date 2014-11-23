@@ -65,75 +65,60 @@ const matm& matm::operator*=(const matm& rhs){
 
 void matm::perspective(float fov, float aspectRatio, float near, float far){
 
-    float rotation[16] = {
+    matm t = {
         1/(aspectRatio*(float)tan(fov/2)), 0, 0, 0,
         0, 1/(float)tan(fov/2), 0, 0,
         0, 0, -((far + near)/(far - near)), -1,
         0, 0, -((2*far*near)/(far - near)), 0
     };
 
-    matm t;
-    std::copy(rotation, rotation + 16, t.val());
-
     *this *= t;
 }
 
 void matm::xRotation(float angle){
 
-    float rotation[16] = {
+    matm t = {
         1, 0, 0, 0,
         0, (float)cos((double)angle), (float)sin((double)angle), 0,
         0, -(float)sin((double)angle), (float)cos((double)angle), 0,
         0, 0, 0, 1
     };
 
-    matm t;
-    std::copy(rotation, rotation + 16, t.val());
-
     *this *= t;
 }
 
 void matm::yRotation(float angle){
 
-    float rotation[16] = {
+    matm t = {
         (float)cos((double)angle), 0, -(float)sin((double)angle), 0,
         0, 1, 0, 0,
         (float)sin((double)angle), 0, (float)cos((double)angle), 0,
         0, 0, 0, 1
     };
 
-    matm t;
-    std::copy(rotation, rotation + 16, t.val());
-
     *this *= t;
 }
 
 void matm::zRotation(float angle){
 
-    float rotation[16] = {
+    matm t = {
         (float)cos((double)angle), (float)sin((double)angle), 0, 0,
         -(float)sin((double)angle), (float)cos((double)angle), 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1
     };
 
-    matm t;
-    std::copy(rotation, rotation + 16, t.val());
-
     *this *= t;
 }
 
 void matm::translate(float x, float y, float z){
 
-    float rotation[16] = {
+    matm t = {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
         x, y, z, 1
     };
-
-    matm t;
-    std::copy(rotation, rotation + 16, t.val());
 
     *this *= t;
 }

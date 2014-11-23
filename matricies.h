@@ -2,6 +2,7 @@
 #define MATRICIES_H
 
 #include<algorithm>
+#include<initializer_list>
 
         // row major matricies for use with opengl and glm. transormations are done
         // for opengl which is column major therefor everything is inversed
@@ -27,14 +28,21 @@ class matm{
                 std::copy(other.mat, other.mat + size, mat);
             }
 
-        matm(matm&& other) : matm(0)
-        {
+        matm(matm&& other) : matm(0) {
             swap(*this, other);
+        }
+
+        matm(std::initializer_list<float> l) : matm(l.size()) {
+            float* tmp = mat;
+            for (float i : l)
+                *tmp++ = i;
         }
 
         ~matm(){
             delete[] mat;
         }
+
+        friend void swap(matm& r, matm& l);
 
         matm& operator=(const matm& rhs);
         matm& operator=(matm&& rhs);
@@ -57,8 +65,6 @@ class matm{
         void translate(float x, float y, float z);
 
         float* val();
-
-        friend void swap(matm& r, matm& l);
 };
 
 #endif
