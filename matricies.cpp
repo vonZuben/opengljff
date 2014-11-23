@@ -10,12 +10,10 @@ void swap(matm& r, matm& l){
     std::swap(r.mat, l.mat);
 }
 
-void matm::identity(){
+void matm::identity(){ // should only be used on matrices that are thought of as square
     zero();
-    mat[0] = 1;
-    mat[5] = 1;
-    mat[10] = 1;
-    mat[15] = 1;
+    for (int i = 0; i < size; i += std::sqrt(size) + 1)
+        mat[i] = 1;
 }
 
 void matm::zero(){
@@ -28,7 +26,7 @@ float* matm::val(){
 }
 
 matm& matm::operator=(const matm& rhs){
-    matm tmp(rhs); // i do this so that i can have sudo copy swap assignment operator and move assignment
+    matm tmp(rhs); // I do this so that I can have sudo copy swap assignment operator and move assignment
     swap(*this, tmp);
     return *this;
 }
