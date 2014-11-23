@@ -5,32 +5,36 @@
 #include<algorithm>
 
 
-void matm::swap(matm& r, matm& l){
+void swap(matm& r, matm& l){
     std::swap(r.size, l.size);
-    std::swap(r.mat4, l.mat4);
+    std::swap(r.mat, l.mat);
 }
 
 void matm::identity(){
     zero();
-    mat4[0] = 1;
-    mat4[5] = 1;
-    mat4[10] = 1;
-    mat4[15] = 1;
+    mat[0] = 1;
+    mat[5] = 1;
+    mat[10] = 1;
+    mat[15] = 1;
 }
 
 void matm::zero(){
-    std::fill(&mat4[0], &mat4[size], 0);
+    std::fill(&mat[0], &mat[size], 0);
 }
 
 
 float* matm::val(){
-    return mat4;
+    return mat;
 }
 
-matm& matm::operator=(matm rhs){
+matm& matm::operator=(const matm& rhs){
+    matm tmp(rhs); // i do this so that i can have sudo copy swap assignment operator and move assignment
+    swap(*this, tmp);
+    return *this;
+}
 
+matm& matm::operator=(matm&& rhs){ // lets me avoid creating a copy for no reason
     swap(*this, rhs);
-
     return *this;
 }
 
@@ -42,7 +46,7 @@ matm matm::operator*(const matm& rhs) const{
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             for (int inner = 0; inner < 4; inner++) {
-                t.mat4[4 * row + col] += this->mat4[4 * row + inner] * rhs.mat4[4 * inner + col];
+                t.mat[4 * row + col] += this->mat[4 * row + inner] * rhs.mat[4 * inner + col];
             }
         }
     }

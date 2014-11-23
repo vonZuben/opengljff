@@ -11,31 +11,36 @@ class matm{
     private:
 
         int size; // i figure this makes it more general just in case
-        float* mat4;
+        float* mat;
 
     public:
 
         matm(int _size = 16) :
             size(_size),
-            mat4(size ? new float[size] : 0)
+            mat(size ? new float[size] : 0)
             {}
 
         matm(const matm& other) :
             size(other.size),
-            mat4(size ? new float[size] : 0)
+            mat(size ? new float[size] : 0)
             {
-                std::copy(other.mat4, other.mat4 + size, mat4);
+                std::copy(other.mat, other.mat + size, mat);
             }
 
-        ~matm(){
-            delete[] mat4;
+        matm(matm&& other) : matm(0)
+        {
+            swap(*this, other);
         }
 
-        matm& operator=(matm rhs);
+        ~matm(){
+            delete[] mat;
+        }
+
+        matm& operator=(const matm& rhs);
+        matm& operator=(matm&& rhs);
         matm operator*(const matm& rhs) const;
         const matm& operator*=(const matm& rhs);
 
-        void swap(matm& r, matm& l);
 
         void identity();
 
@@ -52,6 +57,8 @@ class matm{
         void translate(float x, float y, float z);
 
         float* val();
+
+        friend void swap(matm& r, matm& l);
 };
 
 #endif

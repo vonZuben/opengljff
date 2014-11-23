@@ -179,8 +179,7 @@ int main (int argc, char** argv){
 
             transform.yRotation(dy/100);
             transform.zRotation(dx/100);
-            matm tmp(transform);
-            glUniformMatrix4fv(3, 1, GL_FALSE, tmp.val());
+            glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
         }
         else
         {
