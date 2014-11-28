@@ -161,6 +161,7 @@ int main (int argc, char** argv){
     //transform.xRotation(1.3);
     //transform.zRotation(PI/2);
     transform.translate(-0.5, -0.5, -0.5);
+    transform.scale(1.5, 1.5, 1.5);
 
     glUniformMatrix4fv(3, 1, GL_FALSE, *transform);
 

@@ -120,3 +120,13 @@ void matm::translate(float x, float y, float z){
     *this *= t;
 }
 
+void matm::scale(float xs, float ys, float zs){
+    matm t = {
+        xs, 0, 0, 0,
+        0, ys, 0, 0,
+        0, 0, zs, 0,
+        0, 0, 0, 1
+    };
+
+    *this *= t;
+}

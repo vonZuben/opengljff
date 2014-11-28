@@ -64,6 +64,8 @@ class matm{
         void zRotation(float angle);
 
         void translate(float x, float y, float z);
+
+        void scale(float xs, float ys, float zs);
 };
 
 #endif
