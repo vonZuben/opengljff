@@ -19,9 +19,8 @@ void matm::identity(){ // should only be used on matrices that are thought of as
 void matm::zero(){
     std::fill(&mat[0], &mat[size], 0);
 }
-
-
-float* matm::val(){
+        
+const float* matm::operator*()const{
     return mat;
 }
 

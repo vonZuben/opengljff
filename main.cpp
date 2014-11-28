@@ -37,7 +37,7 @@ void setView(float fovf){
     worldView = glm::lookAt(pos, pos + glm::vec3(-1.0,0, 0), glm::vec3(0.0, 0.0, 1.0));
 
     //GLuint worldViewLoc = glGetAttribLocation(//prgm, //name);
-    glUniformMatrix4fv(2, 1, GL_FALSE, perspective.val());
+    glUniformMatrix4fv(2, 1, GL_FALSE, *perspective);
     //glUniformMatrix4fv(4, 1, GL_FALSE, temp.val());
     glUniformMatrix4fv(4, 1, GL_FALSE, &worldView[0][0]);
 }
@@ -162,7 +162,7 @@ int main (int argc, char** argv){
     //transform.zRotation(PI/2);
     transform.translate(-0.5, -0.5, -0.5);
 
-    glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
+    glUniformMatrix4fv(3, 1, GL_FALSE, *transform);
 
     while(!mainWindow->checkEvents()){
 
@@ -180,7 +180,7 @@ int main (int argc, char** argv){
 
             transform.yRotation(dy/100);
             transform.zRotation(dx/100);
-            glUniformMatrix4fv(3, 1, GL_FALSE, transform.val());
+            glUniformMatrix4fv(3, 1, GL_FALSE, *transform);
         }
         else
         {

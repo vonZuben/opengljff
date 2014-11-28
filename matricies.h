@@ -48,6 +48,7 @@ class matm{
         matm& operator=(matm&& rhs);
         matm operator*(const matm& rhs) const;
         const matm& operator*=(const matm& rhs);
+        const float* operator*()const;
 
 
         void identity();
@@ -63,8 +64,6 @@ class matm{
         void zRotation(float angle);
 
         void translate(float x, float y, float z);
-
-        float* val();
 };
 
 #endif
