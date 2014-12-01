@@ -1,5 +1,16 @@
-all:
-	g++ -o program -lglfw -lGLEW -lGL glWindow.cpp main.cpp glShader.cpp matricies.cpp -g -Wall -O0 -std=c++11
+GCC=
+FIELS=*.cpp
 
+LPATH=-L$(PWD)
+LIBS=-lGL -lGLEW -lGLUS -lglfw3 -lX11 -lXxf86vm -lXrandr -lXi -lpthread -lXcursor -lXinerama
+
+CFLAGS=-Wall -O0 -g -std=c++11
+
+PRGM=program
+
+DEFIENS=-D GLUS
+
+default:
+	g++ -o $(PRGM) $(FIELS) $(CFLAGS) $(LPATH) $(LIBS) $(DEFIENS)
 run:
-	./program
+	./$(PRGM)
