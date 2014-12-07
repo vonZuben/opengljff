@@ -31,7 +31,6 @@ void setView(float fovf){
 
     glmat4 perspective;
     perspective.identity();
-    matm temp;
 
     perspective.perspective((float)PI/2, (float)width/height, 0.01f, 100.0f);
 
@@ -68,7 +67,7 @@ int main (int argc, char** argv){
     width = 1000;
     height = 800;
 
-    glWindow* mainWindow = new glWindow(1000, 800, "Particles", false);
+    glWindow mainWindow = glWindow(1000, 800, "Particles", false);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -125,7 +124,7 @@ int main (int argc, char** argv){
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
 
-    //glfwSetMouseButtonCallback(mainWindow->mainWindow, mousePress);
+    //glfwSetMouseButtonCallback(mainWindow.mainWindow, mousePress);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -138,7 +137,7 @@ int main (int argc, char** argv){
     //float camerpos = 1.0f;
     setView(0.5);
 
-    glfwSetWindowSizeCallback(mainWindow->mainWindow, sizeChange);
+    glfwSetWindowSizeCallback(mainWindow.mainWindow, sizeChange);
 
     double mx, my;
     double omx, omy;
@@ -167,14 +166,14 @@ int main (int argc, char** argv){
 
     glUniformMatrix4fv(3, 1, GL_FALSE, transform);
 
-    while(!mainWindow->checkEvents()){
+    while(!mainWindow.checkEvents()){
 
-        if (glfwGetKey(mainWindow->mainWindow, GLFW_KEY_ESCAPE))
+        if (glfwGetKey(mainWindow.mainWindow, GLFW_KEY_ESCAPE))
                 break;
 
-        if (glfwGetMouseButton(mainWindow->mainWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
+        if (glfwGetMouseButton(mainWindow.mainWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
         {
-            glfwGetCursorPos(mainWindow->mainWindow, &mx, &my);
+            glfwGetCursorPos(mainWindow.mainWindow, &mx, &my);
             dx = mx - omx;
             dy = my - omy;
 
@@ -187,7 +186,7 @@ int main (int argc, char** argv){
         }
         else
         {
-            glfwGetCursorPos(mainWindow->mainWindow, &omx, &omy);
+            glfwGetCursorPos(mainWindow.mainWindow, &omx, &omy);
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -196,14 +195,12 @@ int main (int argc, char** argv){
         glDrawArraysIndirect(GL_TRIANGLES, 0);
         //glDrawArrays(GL_POINTS, 0, sizeof(dat)/(3*sizeof(float)));
 
-        mainWindow->updateWindow();
+        mainWindow.updateWindow();
     }
 
     glDeleteBuffers(1, &vao);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &indirectBuf);
-
-    delete mainWindow;
 
     return 0;
 }

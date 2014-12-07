@@ -4,7 +4,7 @@ FIELS=*.cpp
 LPATH=-L$(PWD)
 LIBS=-lGL -lGLEW -lglfw3 -lX11 -lXxf86vm -lXrandr -lXi -lpthread -lXcursor -lXinerama
 
-CFLAGS=-Wall -O0 -g -std=c++11
+CFLAGS=-O0 -std=c++11 -Wall -g 
 
 PRGM=program
 
