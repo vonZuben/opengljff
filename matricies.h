@@ -55,17 +55,6 @@ class matm{
 
         void zero();
 
-        void perspective(float fov, float aspectRatio, float near, float far);
-
-        void xRotation(float angle);
-
-        void yRotation(float angle);
-
-        void zRotation(float angle);
-
-        void translate(float x, float y, float z);
-
-        void scale(float xs, float ys, float zs);
-};
+        };
 
 #endif

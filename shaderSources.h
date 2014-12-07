@@ -29,4 +29,4 @@ const char* srccompute[] = {
         void main() { \
         }"
 };
-#endif 
+#endif
