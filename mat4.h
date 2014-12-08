@@ -7,13 +7,13 @@ class glmat4{
 
 private:
 
-    matm mat4;
+    matm<float> mat4;
 
 
 public:
 
     glmat4(){
-        mat4 = matm(16);
+        mat4 = matm<float>(16);
     }
 
     void perspective(float fov, float aspectRatio, float near, float far);
