@@ -49,82 +49,60 @@ class matm{
         }
 
         friend void swap <T>(matm<T>& r, matm<T>& l);
-
-        matm<T> operator=(const matm<T>& rhs);
-        matm<T> operator=(matm<T>&& rhs);
-        matm<T> operator*(const matm<T>& rhs) const;
-        const matm<T>& operator*=(const matm<T>& rhs);
-        const T* operator*()const;
-
-
-        void identity();
-
-        void zero();
-
-        };
-
-template<typename T>
-void swap(matm<T>& r, matm<T>& l){
-    std::swap(r.size, l.size);
-    std::swap(r.mat, l.mat);
-}
-
-template<typename T>
-void matm<T>::identity(){ // should only be used on matrices that are thought of as square
-    zero();
-    for (int i = 0; i < size; i += std::sqrt(size) + 1)
-        mat[i] = 1;
-}
-
-template<typename T>
-void matm<T>::zero(){
-    std::fill(&mat[0], &mat[size], 0);
-}
-
-template<typename T>
-const T* matm<T>::operator*()const{
-    return mat;
-}
-
-template<typename T>
-matm<T> matm<T>::operator=(const matm<T>& rhs){
-    matm<T> tmp(rhs); // I do this so that I can have sudo copy swap assignment operator and move assignment
-    swap(*this, tmp);
-    return *this;
-}
-
-template<typename T>
-matm<T> matm<T>::operator=(matm<T>&& rhs){ // lets me avoid creating a copy for no reason
-    swap(*this, rhs);
-    return *this;
-}
-
-template<typename T>
-matm<T> matm<T>::operator*(const matm<T>& rhs) const{
-
-    matm<T> t(rhs.size);
-    t.zero();
-
-    for (int row = 0; row < 4; row++) {
-        for (int col = 0; col < 4; col++) {
-            for (int inner = 0; inner < 4; inner++) {
-                t.mat[4 * row + col] += this->mat[4 * row + inner] * rhs.mat[4 * inner + col];
-            }
+        void swap(matm<T>& r, matm<T>& l){
+            std::swap(r.size, l.size);
+            std::swap(r.mat, l.mat);
         }
-    }
 
-    return t;
-}
+        const T* operator*()const{
+            return mat;
+        }
 
-template<typename T>
-const matm<T>& matm<T>::operator*=(const matm<T>& rhs){
 
-    *this = *this * rhs;
+        void zero(){
+            std::fill(&mat[0], &mat[size], 0);
+        }
 
-    return *this;
-}
+        void identity(){
+            zero();
+            for (int i = 0; i < size; i += std::sqrt(size) + 1)
+                mat[i] = 1;
+        }
 
-// the following functions are for 4 x 4 matricise only
+        matm<T> operator=(const matm<T>& rhs){
+            matm<T> tmp(rhs); // I do this so that I can have sudo copy swap assignment operator and move assignment
+            swap(*this, tmp);
+            return *this;
+        }
+        
+        matm<T> operator=(matm<T>&& rhs){ // lets me avoid creating a copy for no reason
+            swap(*this, rhs);
+            return *this;
+        }
+        
+        matm<T> operator*(const matm<T>& rhs) const{
+        
+            matm<T> t(rhs.size);
+            t.zero();
+        
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                    for (int inner = 0; inner < 4; inner++) {
+                        t.mat[4 * row + col] += this->mat[4 * row + inner] * rhs.mat[4 * inner + col];
+                    }
+                }
+            }
+        
+            return t;
+        }
+        
+        const matm<T>& operator*=(const matm<T>& rhs){
+        
+            *this = *this * rhs;
+        
+            return *this;
+        }
 
+};
 
 #endif
