@@ -6,40 +6,39 @@
 
         // row major matricies for use with opengl and glm. transormations are done
         // for opengl which is column major therefor everything is inversed
-template<typename T>
-class matm;
-
-template <typename T>
-void swap(matm<T>& r, matm<T>& l);
 
 template<typename T>
 class matm{
 
     private:
 
-        int size; // i figure this makes it more general just in case
+        int height;
+        int width;
         T* mat;
 
     public:
 
-        matm(int _size = 0) :
-            size(_size),
-            mat(size ? new T[size] : 0)
+        matm(int _height, int _width) :
+            height(_height),
+            width(_width),
+            mat(height * width ? new T[height * width] : 0)
             {}
 
         matm(const matm& other) :
-            size(other.size),
-            mat(size ? new T[size] : 0)
+            height(other.height),
+            width(other.width),
+            mat(height * width ? new T[height * width] : 0)
             {
-                std::copy(other.mat, other.mat + size, mat);
+                std::copy(other.mat, other.mat + (height * width), mat);
             }
 
-        matm(matm&& other) : matm(0) {
+        matm(matm&& other) : matm(0, 0) {
             swap(*this, other);
         }
 
-        matm(std::initializer_list<T> l) : matm(l.size()) {
+        matm(std::initializer_list<T> l, int _height, int _width) : matm(_height, _width) {
             T* tmp = mat;
+            //static_assert(height * width == l.size(), "matrix size is wrong for the list given");
             for (T i : l)
                 *tmp++ = i;
         }
@@ -48,25 +47,22 @@ class matm{
             delete[] mat;
         }
 
-        friend void swap <T>(matm<T>& r, matm<T>& l);
-        void swap(matm<T>& r, matm<T>& l){
-            std::swap(r.size, l.size);
+        friend void swap(matm<T>& r, matm<T>& l){
+            std::swap(r.height, l.height);
+            std::swap(r.width, l.width);
             std::swap(r.mat, l.mat);
+        }
+
+        inline T* operator[](int r)const{
+            return mat + (this->width * r);
         }
 
         const T* operator*()const{
             return mat;
         }
 
-
-        void zero(){
-            std::fill(&mat[0], &mat[size], 0);
-        }
-
-        void identity(){
-            zero();
-            for (int i = 0; i < size; i += std::sqrt(size) + 1)
-                mat[i] = 1;
+        inline void zero(){
+            std::fill(&mat[0], &mat[height * width], 0);
         }
 
         matm<T> operator=(const matm<T>& rhs){
@@ -74,32 +70,30 @@ class matm{
             swap(*this, tmp);
             return *this;
         }
-        
+
         matm<T> operator=(matm<T>&& rhs){ // lets me avoid creating a copy for no reason
             swap(*this, rhs);
             return *this;
         }
-        
+
         matm<T> operator*(const matm<T>& rhs) const{
-        
-            matm<T> t(rhs.size);
+
+            matm<T> t(this->height, rhs.width);
             t.zero();
-        
-            for (int row = 0; row < 4; row++) {
-                for (int col = 0; col < 4; col++) {
-                    for (int inner = 0; inner < 4; inner++) {
-                        t.mat[4 * row + col] += this->mat[4 * row + inner] * rhs.mat[4 * inner + col];
+
+            for (int row = 0; row < t.height; ++row) {
+                for (int col = 0; col < t.width; ++col) {
+                    for (int inner = 0; inner < t.height; ++inner) { // pretty sure this doesn't work for differently shaped matrices
+                        t[row][col] += (*this)[row][inner] * rhs[inner][col];
                     }
                 }
             }
-        
+
             return t;
         }
-        
-        const matm<T>& operator*=(const matm<T>& rhs){
-        
+
+        matm<T>& operator*=(const matm<T>& rhs){
             *this = *this * rhs;
-        
             return *this;
         }
 
