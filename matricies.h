@@ -4,6 +4,8 @@
 #include<algorithm>
 #include<initializer_list>
 
+//must add proper documentation
+
         // row major matricies for use with opengl and glm. transormations are done
         // for opengl which is column major therefor everything is inversed
 
@@ -18,18 +20,22 @@ class matm{
 
     public:
 
+        inline const int size()const{
+            return height * width;
+        }
+
         matm(int _height, int _width) :
             height(_height),
             width(_width),
-            mat(height * width ? new T[height * width] : 0)
+            mat(size() ? new T[size()] : 0)
             {}
 
         matm(const matm& other) :
             height(other.height),
             width(other.width),
-            mat(height * width ? new T[height * width] : 0)
+            mat(size() ? new T[size()] : 0)
             {
-                std::copy(other.mat, other.mat + (height * width), mat);
+                std::copy(other.mat, other.mat + (size()), mat);
             }
 
         matm(matm&& other) : matm(0, 0) {
@@ -38,7 +44,7 @@ class matm{
 
         matm(std::initializer_list<T> l, int _height, int _width) : matm(_height, _width) {
             T* tmp = mat;
-            //static_assert(height * width == l.size(), "matrix size is wrong for the list given");
+            //static_assert(size() == l.size(), "matrix size is wrong for the list given");
             for (T i : l)
                 *tmp++ = i;
         }
@@ -47,7 +53,7 @@ class matm{
             delete[] mat;
         }
 
-        friend void swap(matm<T>& r, matm<T>& l){
+        inline friend void swap(matm<T>& r, matm<T>& l){
             std::swap(r.height, l.height);
             std::swap(r.width, l.width);
             std::swap(r.mat, l.mat);
@@ -57,12 +63,12 @@ class matm{
             return mat + (this->width * r);
         }
 
-        const T* operator*()const{
+        inline const T* operator*()const{
             return mat;
         }
 
         inline void zero(){
-            std::fill(&mat[0], &mat[height * width], 0);
+            std::fill(&mat[0], &mat[size()], 0);
         }
 
         matm<T> operator=(const matm<T>& rhs){

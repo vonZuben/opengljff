@@ -6,11 +6,10 @@
 
 void glmat4::identity(){
     mat4.zero();
-    float* t = const_cast<float*>(*mat4);
-    t[0] = 1;
-    t[5] = 1;
-    t[10] = 1;
-    t[15] = 1;
+    mat4[0][0] = 1;
+    mat4[1][1] = 1;
+    mat4[2][2] = 1;
+    mat4[3][3] = 1;
 }
 
 void glmat4::perspective(float fov, float aspectRatio, float near, float far){
